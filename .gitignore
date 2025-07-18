@@ -1,0 +1,65 @@
+## ========================
+## Build/Release folders
+## ========================
+bin/
+obj/
+out/
+TestResults/
+.vs/
+*.user
+*.suo
+
+## ========================
+## Docker
+## ========================
+**/Dockerfile
+docker-compose.override.yml
+.env
+.env.*
+*.log
+
+## ========================
+## Rider e VSCode
+## ========================
+.idea/
+.vscode/
+*.code-workspace
+
+## ========================
+## Pacotes e dependências
+## ========================
+packages/
+.nuget/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+*.deps.json
+
+## ========================
+## Arquivos temporários
+## ========================
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+*.swp
+*.DS_Store
+Thumbs.db
+
+## ========================
+## Configurações de build
+## ========================
+*.userprefs
+*.userosscache
+*.sln.docstates
+
+## ========================
+## Logs
+## ========================
+*.log
+
+## ========================
+## Entity Framework Migrations (caso queira ignorar)
+## ========================
+#migrations/

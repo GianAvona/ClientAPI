@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectGuid>{C97D92F9-6D5E-4B5D-BD2E-A2347B000001}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="docker-compose.yml" />
+    <None Include="docker-compose.override.yml" />
+  </ItemGroup>
+</Project>
