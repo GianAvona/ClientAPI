@@ -18,20 +18,10 @@ namespace Client.API.Controllers
 
         // Endpoint para criar um novo cliente
         [HttpPost]
-        public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
+        public async Task<IActionResult> CreateClient([FromBody] CreateClientCommand command)
         {
-            var command = new CreateClientCommand(request);
-            var clientId = await _mediator.Send(command);
-
-            return CreatedAtAction(nameof(GetClientById), new { id = clientId }, new { id = clientId });
-        }
-
-        // Endpoint de exemplo futuro: buscar cliente por ID
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetClientById(Guid id)
-        {
-            // Simulação: endpoint reservado para ser implementado depois
-            return Ok(new { message = $"Simulação de retorno para o cliente com ID {id}" });
+            var response = await _mediator.Send(command);
+            return CreatedAtAction(nameof(CreateClient), response);
         }
     }
 }
