@@ -50,5 +50,29 @@ namespace Client.API.Controllers
             // Simulação: endpoint reservado para ser implementado depois
             return Ok(new { message = $"Simulação de retorno para o cliente com ID {id}" });
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var command = new LoginCommand(request);
+                var result = await _mediator.Send(command);
+
+                return Ok(new { message = result });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
