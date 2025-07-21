@@ -33,6 +33,36 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// ===== APLICA AS MIGRATIONS COM RETRY =====
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ClientDbContext>();
+
+    var maxRetries = 10;
+    var delay = TimeSpan.FromSeconds(5);
+
+    for (int i = 0; i < maxRetries; i++)
+    {
+        try
+        {
+            db.Database.Migrate();
+            Console.WriteLine("Migrations aplicadas com sucesso.");
+            break; // sucesso
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Tentativa {i + 1} de aplicar migrations falhou: {ex.Message}");
+
+            if (i == maxRetries - 1)
+                throw; // lançar erro após número máximo de tentativas
+
+            Thread.Sleep(delay);
+        }
+    }
+}
+// ===========================================
+
+
 // Middleware HTTP
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -40,7 +70,6 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Client.API v1");
     c.RoutePrefix = "swagger"; // acesso em /swagger
 });
-
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
