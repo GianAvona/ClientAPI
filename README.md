@@ -6,9 +6,9 @@ Este microserviço é responsável pelo cadastro e autenticação de clientes da
 
 1. Execute na raiz do projeto:
 
-´setup-client-api.ps1´
+`setup-client-api.ps1`
 
-2. Acesse a aplicação em: `http://localhost:5000/api/clients`
+2. Acesse a aplicação em: `http://localhost:5000/swagger/index.html`
 
 ## 🧱 Tecnologias
 
