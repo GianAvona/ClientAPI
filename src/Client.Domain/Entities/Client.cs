@@ -1,6 +1,5 @@
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Client.Domain.Entities
 {
