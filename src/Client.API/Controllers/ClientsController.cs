@@ -20,10 +20,27 @@ namespace Client.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
         {
-            var command = new CreateClientCommand(request);
-            var clientId = await _mediator.Send(command);
+            //  Validação de modelo (formato)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            return CreatedAtAction(nameof(GetClientById), new { id = clientId }, new { id = clientId });
+            try
+            {
+                var command = new CreateClientCommand(request);
+                var clientId = await _mediator.Send(command);
+
+                return CreatedAtAction(nameof(GetClientById), new { id = clientId }, new { id = clientId });
+            }
+            catch (InvalidOperationException ex)
+            {
+                //  CPF ou Email já existentes
+                return Conflict(new { message = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                // Outros erros esperados (ex: senha vazia)
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // Endpoint de exemplo futuro: buscar cliente por ID
@@ -33,5 +50,29 @@ namespace Client.API.Controllers
             // Simulação: endpoint reservado para ser implementado depois
             return Ok(new { message = $"Simulação de retorno para o cliente com ID {id}" });
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var command = new LoginCommand(request);
+                var result = await _mediator.Send(command);
+
+                return Ok(new { message = result });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
