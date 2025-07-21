@@ -5,7 +5,6 @@ using System.Collections.Generic;
 //using Client.Domain.Entities;
 using ClientEntity = Client.Domain.Entities.Client;
 
-
 namespace Client.Domain.Interfaces
 {
     public interface IClientRepository
@@ -16,6 +15,10 @@ namespace Client.Domain.Interfaces
         Task<IEnumerable<ClientEntity>> GetAllAsync();          // Buscar todos os clientes
         Task AddAsync(ClientEntity client);                     // Adicionar novo cliente
         Task UpdateAsync(ClientEntity client);                  // Atualizar cliente existente
-        Task DeleteAsync(Guid id);                              // Deletar cliente pelo ID              
+        Task DeleteAsync(Guid id);                              // Deletar cliente pelo ID
+
+        //  Validações de unicidade
+        Task<bool> ExistsByEmailAsync(string email);
+        Task<bool> ExistsByCPFAsync(string cpf);
     }
 }

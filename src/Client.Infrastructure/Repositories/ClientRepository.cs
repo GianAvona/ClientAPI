@@ -62,5 +62,17 @@ namespace Client.Infrastructure.Repositories
             _context.Clients.Update(client);
             await _context.SaveChangesAsync();
         }
+
+        // Verificação de existência por Email
+        public async Task<bool> ExistsByEmailAsync(string email)
+        {
+            return await _context.Clients.AnyAsync(c => c.Email == email);
+        }
+
+        // Verificação de existência por CPF
+        public async Task<bool> ExistsByCPFAsync(string cpf)
+        {
+            return await _context.Clients.AnyAsync(c => c.CPF == cpf);
+        }
     }
 }
